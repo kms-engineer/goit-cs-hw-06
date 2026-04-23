@@ -1,0 +1,30 @@
+services:
+  app:
+    build: .
+    container_name: cs-hw06-app
+    depends_on:
+      - mongodb
+    environment:
+      HTTP_HOST: 0.0.0.0
+      HTTP_PORT: 3000
+      SOCKET_BIND_HOST: 0.0.0.0
+      SOCKET_HOST: 127.0.0.1
+      SOCKET_PORT: 5000
+      MONGO_URI: mongodb://mongodb:27017/
+      MONGO_DB: messages_db
+      MONGO_COLLECTION: messages
+    ports:
+      - "3000:3000"
+    expose:
+      - "5000"
+
+  mongodb:
+    image: mongo:7.0
+    container_name: cs-hw06-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
